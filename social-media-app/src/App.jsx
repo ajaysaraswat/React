@@ -16,9 +16,6 @@ function App() {
   return (
     <>
     <PostListProvider>
-
-    
-    
     <div className='app-container'>   
       <Sidebar selectedTab={selectedTab} setSelectedTab={setSelectedTab}/>
       <div className='content'>
