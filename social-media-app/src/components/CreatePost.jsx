@@ -1,12 +1,5 @@
-import { useContext, useRef } from "react";
-import{ PostList } from "../store/Post-list-store";
 import { Form, redirect} from "react-router-dom";
 const CreatePost = ()=>{
-  // const { addPost }=useContext(PostList)
- 
-  
-  
-  
     return <Form className="create-post" method="post" >
     <div className="mb-3">
       <label htmlFor="tittle" className="form-label">Post Tittle</label>
@@ -81,7 +74,5 @@ export async function createPostAction(data){
   });
   return redirect("/");
 }
-
-
 
 export default CreatePost;
