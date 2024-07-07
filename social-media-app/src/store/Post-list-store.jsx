@@ -5,6 +5,7 @@ export const PostList = createContext({
     postList :[],
     addPost: ()=>{},
     deletePost : ()=>{},
+    addPosts : ()=>{},
 });
 
 const postListReducer=(currPostList,action)=>{
@@ -13,29 +14,30 @@ const postListReducer=(currPostList,action)=>{
         newPostList = currPostList.filter(post=>post.id !== action.payload.postId);
     }
     else if(action.type==='ADD_POST'){
-        newPostList = [action.payload,...currPostList];
+        console.log("using Red",action.payload.post);
+        newPostList = [action.payload.post,...currPostList];
     }
+    else if(action.type === 'ADD_INITIAL_POST'){
+        
+     newPostList=action.payload.posts;
+     
+}
+
 return newPostList;
 }
 
 const PostListProvider = ({children})=>{
 
     const [postList,dispatchPostList] = useReducer(postListReducer,
-         DEFAULT_POST_LIST
+        []
     );
 
-    const addPost=(userId,postTittle,postBody,reactions,tags)=>{
-        
+    const addPost=(post)=>{
+        console.log(post);
         dispatchPostList({
             type : 'ADD_POST',
-            payload : {
-                
-                    id : DEFAULT_POST_LIST.length+1,
-                    tittle :postTittle,
-                    body : postBody,
-                    reactions : reactions,
-                    userId : userId,
-                    tags : tags,  
+            payload :{
+                post,
             }
         })
         
@@ -51,10 +53,26 @@ const PostListProvider = ({children})=>{
             },
         });
     }
+
+    const addPosts=(posts)=>{
+        console.log(posts);
+        
+        dispatchPostList({
+            type : 'ADD_INITIAL_POST',
+            payload : { 
+                posts,
+
+            },
+               
+            
+        });
+    }
 return <PostList.Provider value={
    { postList:postList,
     addPost: addPost,
-    deletePost: deletePost,}
+    deletePost: deletePost,
+    addPosts : addPosts,
+}
 }>{children}
 </PostList.Provider>;
 

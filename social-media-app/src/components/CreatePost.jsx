@@ -17,15 +17,34 @@ const CreatePost = ()=>{
     const reactions = reactionsElement.current.value;
     const tags = tagsElement.current.value.split(" ");
 
-    userIdElement.current.value="";
-    postTittleElement.current.value="";
-    postBodyElement.current.value="";
-    reactionsElement.current.value="";
-    tagsElement.current.value ="";
+    // userIdElement.current.value="";
+    // postTittleElement.current.value="";
+    // postBodyElement.current.value="";
+    // reactionsElement.current.value="";
+    // tagsElement.current.value ="";
 
-    addPost(userId,postTittle,postBody,reactions,tags);
-  }
+    // addPost(userId,postTittle,postBody,reactions,tags);
+  
 
+  fetch('https://dummyjson.com/posts/add', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+     
+      title : postTittle,
+      body : postBody,
+      reactions : reactions,
+      userId : userId,
+      tags : tags,
+      
+    }),
+  })
+  .then(res => res.json())
+  .then("res",console.log).then((post)=>{
+    console.log("post",post);
+    addPost(post);
+  });
+}
     return <form className="create-post" onSubmit={handleSubmit}>
     <div className="mb-3">
       <label htmlFor="tittle" className="form-label">Post Tittle</label>

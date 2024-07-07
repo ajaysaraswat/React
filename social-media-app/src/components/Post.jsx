@@ -11,7 +11,7 @@ return (
 <div className="card post-card" style={{width: "30rem"}}>
  
   <div className="card-body">
-    <h5 className="card-title">{post.tittle}
+    <h5 className="card-title">{post.title}
     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
     onClick={()=>deletePost(post.id)}
     >
@@ -32,7 +32,7 @@ return (
   <div className="alert alert-primary d-flex align-items-center reactions" role="alert">
  
   <div>
-    This post has been reacted by {post.reactions } people
+    This post has been reacted by {post.reactions.dislikes } people
   </div>
 </div>
 </div> 
