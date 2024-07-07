@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer ,useState,useEffect} from "react";
 
 
 export const PostList = createContext({
@@ -6,6 +6,7 @@ export const PostList = createContext({
     addPost: ()=>{},
     deletePost : ()=>{},
     addPosts : ()=>{},
+    fetching : false,
 });
 
 const postListReducer=(currPostList,action)=>{
@@ -14,7 +15,7 @@ const postListReducer=(currPostList,action)=>{
         newPostList = currPostList.filter(post=>post.id !== action.payload.postId);
     }
     else if(action.type==='ADD_POST'){
-        console.log("using Red",action.payload.post);
+       
         newPostList = [action.payload.post,...currPostList];
     }
     else if(action.type === 'ADD_INITIAL_POST'){
@@ -31,6 +32,18 @@ const PostListProvider = ({children})=>{
     const [postList,dispatchPostList] = useReducer(postListReducer,
         []
     );
+    const [fetching,setFetching] = useState(false);
+   
+    useEffect(()=>{
+      setFetching(true);
+    fetch('https://dummyjson.com/posts')
+    .then(res => res.json())
+    .then(data=>{
+    addPosts(data.posts);
+    setFetching(false);
+    });
+    
+    },[]);
 
     const addPost=(post)=>{
         console.log(post);
@@ -55,7 +68,7 @@ const PostListProvider = ({children})=>{
     }
 
     const addPosts=(posts)=>{
-        console.log(posts);
+       
         
         dispatchPostList({
             type : 'ADD_INITIAL_POST',
@@ -72,6 +85,7 @@ return <PostList.Provider value={
     addPost: addPost,
     deletePost: deletePost,
     addPosts : addPosts,
+    fetching,
 }
 }>{children}
 </PostList.Provider>;
